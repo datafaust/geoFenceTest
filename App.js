@@ -22,7 +22,18 @@ class App extends Component {
 state= {
   point : {latitude: 0, longitude: 0},
   hasLocationPermission: null,
-  location: null
+  location: null,
+  point: {latitude: 0, longitude: 0},
+  polygonArray : [
+    {
+      'latitude': 35.787184,
+      'longitude': 51.348038,
+    },
+    {
+      'latitude': 35.792754,
+      'longitude': 51.383057,
+    }
+    ] // example of polygonArray 
 }
 
 async componentDidMount() {
@@ -87,6 +98,27 @@ _startLocationTrack = async () => {
 
 }
 
+_isInPolygon = (point, polygonArray) => {
+  console.log('starting local geofence...')
+  console.log('point: ',point);
+  console.log('parray',polygonArray)
+
+  let x = point.latitude
+  let y = point.longitude
+
+  let inside = false
+  for (let i = 0, j = polygonArray.length - 1; i < polygonArray.length; j = i++) {
+    let xLat = polygonArray[i].latitude
+    let yLat = polygonArray[i].longitude
+    let xLon = polygonArray[j].latitude
+    let yLon = polygonArray[j].longitude
+
+    let intersect = ((yLat > y) !== (yLon > y)) && (x < (xLon - xLat) * (y - yLat) / (yLon - yLat) + xLat)
+    if (intersect) inside = !inside
+  }
+  return inside
+} 
+
 
 
 
@@ -106,6 +138,11 @@ _startLocationTrack = async () => {
           onPress={this._startGeofence}
           title="AM-I-IN-THE-REGION?"
         />
+        <Button 
+          onPress={()=>this._isInPolygon(this.state.point, this.state.polygonArray)}
+          title="AM-I-IN-THE-REGION-USING-CLIENT-CALCULATIONS?"
+        />
+        
         <Text>{this.state.location ? `my current location is lat: ${this.state.location[0].coords.latitude}` : `none`}</Text>
       </View>
     );
