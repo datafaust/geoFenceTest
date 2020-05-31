@@ -1,3 +1,12 @@
+//links for support
+
+
+//https://stackoverflow.com/questions/60199774/expo-location-geofencing-not-working-on-standalone-devices-ios
+//https://docs.expo.io/versions/latest/sdk/task-manager/
+//https://www.youtube.com/watch?v=2NUUN0dX4kE
+//https://stackoverflow.com/questions/59133892/expo-startgeofencingasync-not-starting
+
+
 
 import { StyleSheet, Text, View, Button } from 'react-native';
 import React, { Component } from 'react';
